@@ -1,0 +1,1094 @@
+## DAA Brainstorming Assignment
+
+### 1. Choosing the Right Search Technique
+A college stores 50,000 student records sorted by roll number. During admission, new records are inserted
+frequently, but searches are performed only occasionally.
+
+Would you use Linear Search or Binary Search? Analyse the advantages and limitations of both methods in this
+situation. Does Binary Search always remain the best choice when data is sorted?
+
+### Solution
+
+A college stores **50,000 student records sorted by roll number**. During admission, new records are inserted frequently, while searches are performed only occasionally. In this situation, both Linear Search and Binary Search have advantages and limitations.
+
+#### 1. Linear Search
+
+**Linear Search** checks each record one by one from the beginning until the required roll number is found.
+
+**Advantages:**
+
+* Very simple and easy to implement.
+* Does not require the records to be sorted.
+* Insertion of a new record is relatively simple if the data structure allows it.
+* It can be useful when searches are very rare and maintaining sorted order is more important than search speed.
+
+**Limitations:**
+
+* It can require checking many records.
+* For 50,000 records, the worst-case time is **O(n)**, meaning up to 50,000 records may need to be examined.
+* Sorting the records does not provide any benefit to Linear Search.
+
+#### 2. Binary Search
+
+**Binary Search** works by repeatedly dividing the sorted records into two halves and determining which half may contain the required roll number.
+
+**Advantages:**
+
+* Takes advantage of the fact that the records are sorted.
+* Much faster for searching large datasets.
+* Has a worst-case time complexity of **O(log n)**.
+* For 50,000 records, only around **16 comparisons** are needed in the worst case, since (2^{16} = 65,536).
+
+**Limitations:**
+
+* The records must remain sorted.
+* If records are stored in an array, inserting a new record at the correct position may require shifting many existing records.
+* Maintaining sorted order becomes costly when insertions happen frequently.
+* Binary Search is most beneficial when searches are frequent enough to justify maintaining the sorted structure.
+
+#### 3. Comparison in This Situation
+
+| Factor                            | Linear Search | Binary Search         |
+| --------------------------------- | ------------- | --------------------- |
+| Data must be sorted?              | No            | Yes                   |
+| Search complexity                 | O(n)          | O(log n)              |
+| Search speed for 50,000 records   | Slow          | Very fast             |
+| Implementation                    | Simple        | Slightly more complex |
+| Effect of frequent insertion      | Lower         | Potentially higher    |
+| Suitable for occasional searches  | Yes           | Yes                   |
+| Requires maintaining sorted order | No            | Yes                   |
+
+Since **new records are inserted frequently but searches are performed only occasionally**, Linear Search can actually be a reasonable choice if maintaining the sorted order for Binary Search requires significant effort.
+
+If the college uses an **array**, frequent insertion while keeping 50,000 records sorted may require shifting many records. In that case, the cost of maintaining the sorted array could outweigh the benefit gained from faster searches.
+
+However, if the college uses a data structure such as a **balanced Binary Search Tree**, records can remain ordered while allowing efficient insertion and searching.
+
+#### 4. Does Binary Search Always Remain the Best Choice When Data Is Sorted?
+
+**No. Binary Search is not always the best choice just because the data is sorted.**
+
+The choice of searching algorithm depends on the **frequency of searches, frequency of insertions/deletions, data structure, and cost of maintaining sorted order**.
+
+In this particular case, because **insertions are frequent and searches are occasional**, Linear Search may be preferable if the records are frequently changing and maintaining a sorted array is expensive. On the other hand, if the records are kept sorted efficiently using an appropriate data structure, Binary Search can provide much faster searches.
+
+### Conclusion
+
+For a static or rarely changing sorted dataset, **Binary Search is clearly better** because of its **O(log n)** search time. However, for this college database, where **insertions are frequent and searches are occasional**, the overall cost of maintaining sorted data should also be considered. Therefore, **Binary Search is not automatically the best choice merely because the data is sorted**.
+
+---
+
+
+### 2. Modified Binary Search
+A sorted array contains duplicate elements:
+
+``[2, 4, 4, 4, 7, 9, 9, 12]``
+
+Design a Binary Search-based algorithm to find:
+
+• The first occurrence of 4
+
+• The last occurrence of 4
+
+• The total number of occurrences of 4
+
+The complete solution should have O(log n) time complexity
+
+### Soution
+
+**Given array:**
+
+`[2, 4, 4, 4, 7, 9, 9, 12]`
+
+We need to find:
+
+* First occurrence of `4`
+* Last occurrence of `4`
+* Total number of occurrences of `4`
+
+Since the array is sorted, Binary Search can be modified to continue searching even after finding `4`.
+
+#### Algorithm
+
+**To find the first occurrence:**
+
+1. Perform normal Binary Search.
+2. If `arr[mid] == 4`, store `mid` as the answer.
+3. Continue searching in the **left half** because there may be another `4` before it.
+4. If `arr[mid] < 4`, search the right half.
+5. If `arr[mid] > 4`, search the left half.
+
+**To find the last occurrence:**
+
+1. Perform Binary Search again.
+2. If `arr[mid] == 4`, store `mid` as the answer.
+3. Continue searching in the **right half** because there may be another `4` after it.
+4. If `arr[mid] < 4`, search the right half.
+5. If `arr[mid] > 4`, search the left half.
+
+#### Applying it to the given array
+
+Array:
+
+`[2, 4, 4, 4, 7, 9, 9, 12]`
+
+Using the modified Binary Search:
+
+* First occurrence of `4` = index **1**
+* Last occurrence of `4` = index **3**
+
+Therefore,
+
+**Total occurrences = Last index - First index + 1**
+
+`= 3 - 1 + 1`
+
+`= 3`
+
+### Result
+
+* **First occurrence of 4:** Index `1`
+* **Last occurrence of 4:** Index `3`
+* **Total occurrences of 4:** `3`
+
+### Time Complexity
+
+Finding the first occurrence takes `O(log n)` and finding the last occurrence also takes `O(log n)`.
+
+Therefore, the overall time complexity is:
+
+**O(log n)**
+
+The extra space used is **O(1)**.
+
+---
+
+### 3. Identify the Sorting Algorithm
+
+An unknown sorting algorithm produces the following array states:
+
+`Initial: [29, 10, 14, 37, 13]`
+`Pass 1: [10, 29, 14, 37, 13]`
+`Pass 2: [10, 13, 14, 37, 29]`
+`Pass 3: [10, 13, 14, 37, 29]`
+`Pass 4: [10, 13, 14, 29, 37]`
+
+• Which sorting algorithm is most likely being used?
+
+• What happens during each pass?
+
+• Can another sorting algorithm produce the same intermediate states?
+
+• What additional information would help you identify it conclusively?
+
+### Solution
+### 3. Identifying the Sorting Algorithm
+
+Given:
+
+**Initial:** `[29, 10, 14, 37, 13]`
+**Pass 1:** `[10, 29, 14, 37, 13]`
+**Pass 2:** `[10, 13, 14, 37, 29]`
+**Pass 3:** `[10, 13, 14, 37, 29]`
+**Pass 4:** `[10, 13, 14, 29, 37]`
+
+#### 1. Which sorting algorithm is most likely being used?
+
+The algorithm is most likely **Selection Sort**.
+
+In Selection Sort, during every pass, the smallest element from the unsorted part is selected and placed at its correct position.
+
+Here, we can see that after each pass, one element gets fixed at the beginning:
+
+* After Pass 1 → `10` is at the first position.
+* After Pass 2 → `13` is at the second position.
+* After Pass 3 → `14` is already in its correct position, so there is no visible change.
+* After Pass 4 → `29` is placed before `37`.
+
+This pattern matches Selection Sort.
+
+#### 2. What happens during each pass?
+
+**Pass 1:**
+
+From `[29, 10, 14, 37, 13]`, the smallest element is `10`.
+
+It is swapped with `29`.
+
+`[10, 29, 14, 37, 13]`
+
+---
+
+**Pass 2:**
+
+Now we consider the unsorted part:
+
+`[29, 14, 37, 13]`
+
+The smallest element is `13`.
+
+It is placed at the second position.
+
+`[10, 13, 14, 37, 29]`
+
+---
+
+**Pass 3:**
+
+The remaining unsorted part is:
+
+`[14, 37, 29]`
+
+The smallest element is already `14`, so no swap is required.
+
+`[10, 13, 14, 37, 29]`
+
+---
+
+**Pass 4:**
+
+The remaining elements are:
+
+`[37, 29]`
+
+The smaller element is `29`, so they are swapped.
+
+`[10, 13, 14, 29, 37]`
+
+The array is now sorted.
+
+#### 3. Can another sorting algorithm produce the same intermediate states?
+
+Yes. It is possible for another sorting algorithm to produce the same intermediate states, especially if the algorithm uses similar swaps or comparisons.
+
+For example, a modified version of another sorting algorithm could coincidentally make the same changes for this particular input.
+
+However, the given sequence is **most naturally explained by Selection Sort**, because exactly one element becomes fixed at its correct position in each pass.
+
+#### 4. What additional information would help identify it conclusively?
+
+To identify the algorithm with certainty, we would need more information about what happens **inside each pass**, such as:
+
+* Which elements are compared during each pass.
+* Whether the algorithm searches for the minimum/maximum element.
+* The number and positions of swaps.
+* The array state after every comparison or swap.
+* Whether adjacent elements are being compared.
+
+For example, if we know that each pass searches the remaining unsorted portion for the smallest element and then swaps it into position, it would conclusively confirm **Selection Sort**.
+
+### Conclusion
+
+The sorting algorithm is most likely **Selection Sort** because each pass places the smallest remaining element into its correct position. The unchanged array in Pass 3 also supports this, since `14` was already in the correct position.
+
+---
+
+### 4. Bubble Sort on Special Inputs
+
+Consider an optimized Bubble Sort that terminates when no swapping occurs during a pass.
+
+**A = [1, 2, 3, 4, 5, 6]**
+**B = [6, 5, 4, 3, 2, 1]**
+**C = [1, 2, 3, 4, 6, 5]**
+
+For each input, determine:
+
+* Number of passes
+* Number of comparisons
+* Number of swaps
+* Best-, average- or worst-case behaviour
+
+Explain why the third array is an interesting case.
+
+---
+
+### Solution
+
+In optimized Bubble Sort, if a complete pass is performed without any swapping, the algorithm stops because the array is already sorted.
+
+For an array of 6 elements, the number of comparisons in the first pass is 5, then 4, then 3, and so on.
+
+### A = [1, 2, 3, 4, 5, 6]
+
+The array is already sorted.
+
+During the first pass, all adjacent elements are compared:
+
+`1-2, 2-3, 3-4, 4-5, 5-6`
+
+No swapping is required, so the algorithm stops after this pass.
+
+* **Number of passes:** 1
+* **Number of comparisons:** 5
+* **Number of swaps:** 0
+* **Case:** Best case
+
+This is the best case because the array is already sorted and the optimized version detects this immediately.
+
+---
+
+### B = [6, 5, 4, 3, 2, 1]
+
+The array is in completely reverse order.
+
+Every pass moves the largest remaining element towards the end.
+
+Pass 1 → 5 comparisons, 5 swaps
+Pass 2 → 4 comparisons, 4 swaps
+Pass 3 → 3 comparisons, 3 swaps
+Pass 4 → 2 comparisons, 2 swaps
+Pass 5 → 1 comparison, 1 swap
+
+After Pass 5, the array becomes sorted.
+
+Therefore:
+
+* **Number of passes:** 5
+* **Number of comparisons:** `5 + 4 + 3 + 2 + 1 = 15`
+* **Number of swaps:** `5 + 4 + 3 + 2 + 1 = 15`
+* **Case:** Worst case
+
+This is the worst case because every pair of elements is in the wrong order.
+
+---
+
+### C = [1, 2, 3, 4, 6, 5]
+
+This array is almost sorted. Only `6` and `5` are in the wrong order.
+
+**Pass 1:**
+
+Comparisons are made between adjacent elements.
+
+`1-2` → no swap
+`2-3` → no swap
+`3-4` → no swap
+`4-6` → no swap
+`6-5` → swap
+
+Array becomes:
+
+`[1, 2, 3, 4, 5, 6]`
+
+There was one swap, so the algorithm performs another pass to check whether any swaps are still needed.
+
+**Pass 2:**
+
+All 5 adjacent pairs are compared, but no swaps occur.
+
+The algorithm stops.
+
+Therefore:
+
+* **Number of passes:** 2
+* **Number of comparisons:** `5 + 5 = 10`
+* **Number of swaps:** 1
+* **Case:** Average case / nearly best case
+
+### Why is C an interesting case?
+
+The third array is interesting because it is **almost completely sorted**, but it still requires two passes.
+
+Even though only one pair (`6` and `5`) is out of order, Bubble Sort cannot stop immediately after fixing that pair. It needs one additional pass with no swaps to confirm that the array is completely sorted.
+
+So, it shows how the optimization helps Bubble Sort detect sorted data, but also shows that an almost-sorted array may still require more than one pass.
+
+### Final Comparison
+
+| Input               | Passes | Comparisons | Swaps | Case                       |
+| ------------------- | -----: | ----------: | ----: | -------------------------- |
+| A = `[1,2,3,4,5,6]` |      1 |           5 |     0 | Best case                  |
+| B = `[6,5,4,3,2,1]` |      5 |          15 |    15 | Worst case                 |
+| C = `[1,2,3,4,6,5]` |      2 |          10 |     1 | Nearly best / average case |
+
+Thus, the optimized Bubble Sort performs especially well when the array is already sorted or nearly sorted.
+
+---
+
+### ### 5. Selection Sort vs. Insertion Sort
+
+#### Question
+
+Two arrays contain the same number of elements:
+
+`A = [2, 3, 5, 7, 8, 6, 9, 10]`
+
+`B = [10, 9, 8, 7, 6, 5, 3, 2]`
+
+Which algorithm - Selection Sort or Insertion Sort - would perform better on each array? Compare them based on:
+
+* Comparisons
+* Swaps or shifts
+* Adaptability to existing order
+* Best- and worst-case time complexity
+
+Can two algorithms with the same worst-case complexity behave very differently in practice?
+
+---
+
+### Solution
+
+Both Selection Sort and Insertion Sort have a worst-case time complexity of `O(n²)`, but their actual performance can be different depending on the arrangement of the elements.
+
+### Array A
+
+`A = [2, 3, 5, 7, 8, 6, 9, 10]`
+
+This array is **almost sorted**. Only `6` is out of its correct position.
+
+#### Insertion Sort
+
+Insertion Sort works well with this type of array because it takes advantage of the elements that are already sorted.
+
+When it reaches `6`, it shifts `8` and `7` to the right and inserts `6` in its correct position.
+
+So, only a small number of shifts are required.
+
+**Therefore, Insertion Sort would perform better on Array A.**
+
+#### Selection Sort
+
+Selection Sort does not take much advantage of the fact that the array is already mostly sorted. It still searches the remaining part of the array to find the minimum element during every pass.
+
+So, it performs almost the same number of comparisons even though the array is nearly sorted.
+
+---
+
+### Array B
+
+`B = [10, 9, 8, 7, 6, 5, 3, 2]`
+
+This array is in **reverse order**, so it is a worst-case type of input for Insertion Sort.
+
+#### Insertion Sort
+
+Every new element needs to be moved past almost all the elements before it.
+
+This results in many shifts.
+
+For 8 elements, the maximum number of shifts is:
+
+`1 + 2 + 3 + 4 + 5 + 6 + 7 = 28`
+
+So Insertion Sort performs a large number of shifts.
+
+#### Selection Sort
+
+Selection Sort still makes about the same number of comparisons:
+
+`7 + 6 + 5 + 4 + 3 + 2 + 1 = 28`
+
+However, it performs at most one swap in each pass.
+
+So, there are at most **7 swaps**.
+
+**Therefore, Selection Sort would generally be better for Array B**, especially when swaps/shifts are expensive.
+
+---
+
+### Comparison
+
+| Feature                            | Selection Sort | Insertion Sort          |
+| ---------------------------------- | -------------- | ----------------------- |
+| Array A                            | Less suitable  | **Better**              |
+| Array B                            | **Better**     | Less suitable           |
+| Comparisons                        | `O(n²)`        | `O(n²)` worst case      |
+| Swaps/Shifts                       | Few swaps      | Can require many shifts |
+| Works well with nearly sorted data | No             | **Yes**                 |
+| Best case                          | `O(n²)`        | **O(n)**                |
+| Worst case                         | `O(n²)`        | `O(n²)`                 |
+
+### Can algorithms with the same worst-case complexity behave differently?
+
+**Yes.**
+
+Even though both algorithms have `O(n²)` worst-case time complexity, they do not always perform the same amount of work.
+
+Insertion Sort is **adaptive**, meaning it performs much better when the array is already sorted or nearly sorted. Selection Sort does not benefit much from existing order because it continues searching for the minimum element on every pass.
+
+Therefore:
+
+* For **nearly sorted data**, Insertion Sort is usually better.
+* For **reverse or highly unsorted data**, Selection Sort can be preferable when reducing swaps/shifts is important.
+
+So, having the same Big-O complexity does **not** mean two algorithms will have the same practical performance.
+
+---
+
+### ### 6. Merge Sort Trace and Analysis
+
+
+Apply Merge Sort to:
+
+`[38, 27, 43, 3, 9, 82, 10]`
+
+Show:
+
+* The complete division process
+* The order in which subarrays are merged
+* Comparisons performed during each merge
+* The recursion tree
+* The additional memory required
+
+Then explain why Merge Sort has Theta(n log n) complexity in the best, average and worst cases.
+
+---
+
+### Solution
+
+### 1. Division Process
+
+Merge Sort first divides the array into smaller subarrays until each subarray contains only one element.
+
+Starting array:
+
+`[38, 27, 43, 3, 9, 82, 10]`
+
+First division:
+
+`[38, 27, 43]` | `[3, 9, 82, 10]`
+
+Divide again:
+
+`[38]` | `[27, 43]` | `[3, 9]` | `[82, 10]`
+
+Continue dividing:
+
+`[38]` | `[27] [43]` | `[3] [9]` | `[82] [10]`
+
+Now every subarray has one element.
+
+---
+
+### 2. Merging Process
+
+Now the subarrays are merged back together in sorted order.
+
+#### Merge 1: `[27]` and `[43]`
+
+Comparison:
+
+`27 < 43`
+
+So:
+
+`[27, 43]`
+
+---
+
+#### Merge 2: `[38]` and `[27, 43]`
+
+Comparisons:
+
+`38 > 27` → take `27`
+
+`38 < 43` → take `38`
+
+Then `43` remains.
+
+Result:
+
+`[27, 38, 43]`
+
+---
+
+#### Merge 3: `[3]` and `[9]`
+
+Comparison:
+
+`3 < 9`
+
+Result:
+
+`[3, 9]`
+
+---
+
+#### Merge 4: `[82]` and `[10]`
+
+Comparison:
+
+`82 > 10` → take `10`
+
+Then `82` remains.
+
+Result:
+
+`[10, 82]`
+
+---
+
+#### Merge 5: `[3, 9]` and `[10, 82]`
+
+Comparisons:
+
+`3 < 10` → take `3`
+
+`9 < 10` → take `9`
+
+`10 < 82` → take `10`
+
+Then `82` remains.
+
+Result:
+
+`[3, 9, 10, 82]`
+
+---
+
+#### Final Merge: `[27, 38, 43]` and `[3, 9, 10, 82]`
+
+Comparisons:
+
+`27 > 3` → take `3`
+
+`27 > 9` → take `9`
+
+`27 > 10` → take `10`
+
+`27 < 82` → take `27`
+
+`38 < 82` → take `38`
+
+`43 < 82` → take `43`
+
+Then `82` remains.
+
+Final sorted array:
+
+`[3, 9, 10, 27, 38, 43, 82]`
+
+---
+
+### 3. Order of Merging
+
+The merging takes place in this order:
+
+```text
+[27] + [43]       → [27, 43]
+[38] + [27, 43]   → [27, 38, 43]
+
+[3] + [9]         → [3, 9]
+[82] + [10]       → [10, 82]
+[3, 9] + [10, 82] → [3, 9, 10, 82]
+
+[27, 38, 43] + [3, 9, 10, 82]
+                  → [3, 9, 10, 27, 38, 43, 82]
+```
+
+---
+
+### 4. Recursion Tree
+
+```text
+                    [38,27,43,3,9,82,10]
+                     /                 \
+             [38,27,43]           [3,9,82,10]
+              /      \              /      \
+           [38]    [27,43]       [3,9]    [82,10]
+                    /  \          /  \      /  \
+                  [27] [43]      [3] [9]  [82] [10]
+```
+
+After reaching the individual elements, the tree is merged back upward until the final sorted array is obtained.
+
+---
+
+### 5. Additional Memory Required
+
+Merge Sort is not an in-place sorting algorithm in its usual implementation.
+
+It needs extra temporary arrays while merging.
+
+For `n` elements, the additional memory required is:
+
+**O(n)**
+
+For this particular array, there are 7 elements, so temporary space is required to store the elements during the merging process.
+
+The recursion also uses a stack of depth approximately:
+
+**O(log n)**
+
+But the main extra memory requirement is **O(n)**.
+
+---
+
+### 6. Why is Merge Sort Theta(n log n)?
+
+Merge Sort divides the array into two parts at every level.
+
+For `n` elements:
+
+* The array is divided into about `log₂ n` levels.
+* At every level, all `n` elements are processed while merging.
+* Therefore, the work at each level is `Θ(n)`.
+
+There are `Θ(log n)` levels.
+
+So:
+
+`Θ(n) × Θ(log n) = Θ(n log n)`
+
+This happens regardless of whether the array is already sorted, randomly arranged, or in reverse order.
+
+Therefore:
+
+* **Best case:** `Θ(n log n)`
+* **Average case:** `Θ(n log n)`
+* **Worst case:** `Θ(n log n)`
+
+This is one of the main advantages of Merge Sort: its running time remains `Θ(n log n)` even in the worst case.
+
+---
+
+### 7. Pivot Selection in Quick Sort
+
+Apply Quick Sort to the sorted array:
+
+`[10, 20, 30, 40, 50, 60, 70]`
+
+Analyse the algorithm under these pivot-selection strategies:
+
+* First element as pivot
+* Last element as pivot
+* Middle element as pivot
+* Randomly selected pivot
+
+For each strategy, discuss the possible partition sizes, recursion depth and time complexity. Explain why Quick Sort can degrade from `O(n log n)` to `O(n²)`.
+
+---
+
+### Solution
+
+Quick Sort works by selecting a pivot and partitioning the array into elements smaller and larger than the pivot. It then recursively sorts the two parts.
+
+The performance mainly depends on how balanced the partitions are.
+
+### 1. First Element as Pivot
+
+Array:
+
+`[10, 20, 30, 40, 50, 60, 70]`
+
+The first element is `10`.
+
+Since the array is already sorted, all other elements are greater than `10`.
+
+So the partition becomes:
+
+`[] | 10 | [20, 30, 40, 50, 60, 70]`
+
+Again, `20` becomes the pivot and produces:
+
+`[] | 20 | [30, 40, 50, 60, 70]`
+
+This continues until only one element is left.
+
+Therefore, the partitions are highly unbalanced.
+
+* **Partition sizes:** `0 and n-1`, then `0 and n-2`, etc.
+* **Recursion depth:** `O(n)`
+* **Time complexity:** `O(n²)`
+
+So, choosing the first element is a **bad choice for an already sorted array**.
+
+---
+
+### 2. Last Element as Pivot
+
+The same problem occurs when the last element is selected.
+
+First pivot = `70`
+
+Partition:
+
+`[10, 20, 30, 40, 50, 60] | 70 | []`
+
+Then `60` becomes the pivot:
+
+`[10, 20, 30, 40, 50] | 60 | []`
+
+This continues in the same way.
+
+* **Partition sizes:** `n-1 and 0`, then `n-2 and 0`, etc.
+* **Recursion depth:** `O(n)`
+* **Time complexity:** `O(n²)`
+
+Thus, the last element is also a poor choice for this sorted input.
+
+---
+
+### 3. Middle Element as Pivot
+
+The middle element is `40`.
+
+The array can be divided into:
+
+`[10, 20, 30] | 40 | [50, 60, 70]`
+
+These are almost equal-sized partitions.
+
+Now the same process is repeated:
+
+`[10, 20, 30]` → pivot `20`
+
+`[50, 60, 70]` → pivot `60`
+
+The partitions remain fairly balanced.
+
+* **Partition sizes:** approximately `n/2 and n/2`
+* **Recursion depth:** `O(log n)`
+* **Time complexity:** `O(n log n)`
+
+For this sorted array, choosing the middle element gives a much better result.
+
+---
+
+### 4. Randomly Selected Pivot
+
+With a random pivot, any element can be selected.
+
+For example, if `40` is selected, the partition will be balanced:
+
+`[10, 20, 30] | 40 | [50, 60, 70]`
+
+But if `10` or `70` is selected, the partition will be very unbalanced.
+
+Therefore, random pivot selection does not guarantee balanced partitions every time, but it reduces the chance of repeatedly getting the worst possible pivot.
+
+* **Partition sizes:** depend on the randomly selected pivot
+* **Expected recursion depth:** `O(log n)`
+* **Expected time complexity:** `O(n log n)`
+* **Worst-case time complexity:** `O(n²)`
+
+---
+
+### Comparison
+
+| Pivot Strategy | Partition         | Recursion Depth     | Time Complexity       |
+| -------------- | ----------------- | ------------------- | --------------------- |
+| First element  | `0, n-1`          | `O(n)`              | `O(n²)`               |
+| Last element   | `n-1, 0`          | `O(n)`              | `O(n²)`               |
+| Middle element | Nearly `n/2, n/2` | `O(log n)`          | `O(n log n)`          |
+| Random pivot   | Depends on pivot  | Expected `O(log n)` | Expected `O(n log n)` |
+
+### Why can Quick Sort become O(n²)?
+
+Quick Sort is efficient when the pivot divides the array into roughly equal parts.
+
+In that case, the recursion depth is about `log n`, and each level takes `O(n)` work:
+
+`O(n) × O(log n) = O(n log n)`
+
+However, if the pivot is always the smallest or largest element, one partition contains almost all the elements while the other contains none.
+
+For example:
+
+`n → n-1 → n-2 → n-3 → ...`
+
+This gives a recursion depth of `O(n)`.
+
+The total work becomes:
+
+`n + (n-1) + (n-2) + ... + 1`
+
+which is `O(n²)`.
+
+Therefore, **pivot selection is very important in Quick Sort**. For a sorted array, choosing the middle element is much better than consistently choosing the first or last element.
+
+---
+### 8. Design a Hybrid Sorting Strategy
+
+
+You must sort one million integers. Most elements are already in approximately correct positions, but some small regions are highly disordered.
+
+Design a hybrid sorting approach using any two of the following: Insertion Sort, Merge Sort and Quick Sort.
+
+* When should the algorithm switch from one method to another?
+* Why may the combination outperform a single sorting algorithm?
+* What are its expected best-, average- and worst-case complexities?
+* Is additional memory required?
+
+---
+
+### Solution
+
+I would use a combination of **Merge Sort and Insertion Sort**.
+
+Merge Sort is useful for handling the large array efficiently, while Insertion Sort works well on small regions that are already almost sorted.
+
+### How the Hybrid Approach Works
+
+First, I would use Merge Sort to divide the one million elements into smaller subarrays.
+
+When a subarray becomes small enough, for example around **10–20 elements**, I would stop dividing it and use Insertion Sort on that subarray.
+
+The process would be:
+
+```text
+Large Array
+     ↓
+  Merge Sort
+     ↓
+Smaller subarrays
+     ↓
+If subarray is small → Insertion Sort
+     ↓
+Merge the sorted subarrays
+```
+
+### 1. When should the algorithm switch?
+
+The algorithm can switch from Merge Sort to Insertion Sort when the subarray size becomes small, such as **10–20 elements**.
+
+Insertion Sort is simple and has less overhead for small arrays. Since the elements are already approximately in the correct positions, it will require relatively few shifts.
+
+For larger sections, Merge Sort is preferred because its `O(n log n)` performance is more reliable.
+
+### 2. Why can the combination be faster?
+
+Using only Merge Sort would still give good performance, but it would continue dividing the array into very small parts.
+
+Insertion Sort has less overhead for these small parts and can take advantage of their existing order.
+
+Therefore:
+
+* **Merge Sort** handles the large portions efficiently.
+* **Insertion Sort** handles the small, nearly sorted portions efficiently.
+
+This can reduce the overhead of recursion and make the algorithm faster in practice.
+
+### 3. Time Complexity
+
+For the hybrid algorithm:
+
+**Best case:** `O(n log n)` overall, with the Insertion Sort sections requiring very little work because they are already nearly sorted.
+
+**Average case:** `O(n log n)`
+
+**Worst case:** `O(n log n)`
+
+The Merge Sort part guarantees `O(n log n)` behaviour, while Insertion Sort is only being used on small subarrays.
+
+For `n = 1,000,000`, this makes the approach suitable for handling a large input.
+
+### 4. Additional Memory
+
+Yes, additional memory is required because Merge Sort normally uses temporary arrays while merging.
+
+The extra memory requirement is approximately:
+
+**O(n)**
+
+Insertion Sort itself only needs **O(1)** extra space, but the overall hybrid algorithm still requires `O(n)` additional space because of Merge Sort.
+
+### Conclusion
+
+The best choice for this situation is **Merge Sort + Insertion Sort**.
+
+Merge Sort handles the large number of elements efficiently, while Insertion Sort takes advantage of the fact that the smaller regions are already approximately sorted. This can make the hybrid approach more practical and faster than using only one algorithm.
+
+---
+
+### 9. Arrange Complexities by Rate of Growth
+
+Arrange the following functions in increasing order of asymptotic growth:
+
+`1, log log n, √(log n), log n, (log n)², √n, n, n log n, n², n³, 2ⁿ, n!, nⁿ`
+
+* Which complexities are practically acceptable for `n = 10⁶`?
+* Can an `O(n²)` algorithm ever outperform an `O(n log n)` algorithm?
+* Why are constants and input size ignored in asymptotic analysis but still important in real implementations?
+
+---
+
+### Solution
+
+### 1. Increasing Order of Growth
+
+The functions arranged from slowest-growing to fastest-growing are:
+
+**`1 < log log n < √(log n) < log n < (log n)² < √n < n < n log n < n² < n³ < 2ⁿ < n! < nⁿ`**
+
+So, the final order is:
+
+| Order | Complexity  |
+| ----: | ----------- |
+|     1 | `1`         |
+|     2 | `log log n` |
+|     3 | `√(log n)`  |
+|     4 | `log n`     |
+|     5 | `(log n)²`  |
+|     6 | `√n`        |
+|     7 | `n`         |
+|     8 | `n log n`   |
+|     9 | `n²`        |
+|    10 | `n³`        |
+|    11 | `2ⁿ`        |
+|    12 | `n!`        |
+|    13 | `nⁿ`        |
+
+The main idea is that logarithmic functions grow very slowly, polynomial functions grow faster, and exponential/factorial functions grow extremely quickly.
+
+---
+
+### 2. Which complexities are practically acceptable for n = 10⁶?
+
+For one million elements, the following are generally practical:
+
+* `O(1)`
+* `O(log n)`
+* `O((log n)²)`
+* `O(√n)`
+* `O(n)`
+* `O(n log n)`
+
+An `O(n²)` algorithm would involve roughly:
+
+`(10⁶)² = 10¹²`
+
+operations in the worst case, which is generally too slow.
+
+`O(n³)`, `O(2ⁿ)`, `O(n!)` and `O(nⁿ)` are completely impractical for such a large input.
+
+So, for `n = 10⁶`, **linear and near-linear algorithms are generally preferred**.
+
+---
+
+### 3. Can an O(n²) algorithm ever outperform an O(n log n) algorithm?
+
+**Yes, it can.**
+
+Big-O describes the growth rate as the input becomes very large. It does not tell us the exact running time for every input size.
+
+For example, an `O(n²)` algorithm may be faster when:
+
+* `n` is small.
+* The `O(n²)` algorithm has a very small constant factor.
+* The `O(n log n)` algorithm has large overhead.
+* The input has some special properties that make the `O(n²)` algorithm finish quickly.
+
+For example, **Insertion Sort**, which has `O(n²)` worst-case complexity, can be faster than Merge Sort for small or nearly sorted arrays.
+
+---
+
+### 4. Why are constants and input size ignored in asymptotic analysis?
+
+Asymptotic analysis mainly focuses on how an algorithm grows as `n` becomes large.
+
+For example:
+
+`5n² + 10n + 20`
+
+is considered:
+
+`O(n²)`
+
+because the `n²` term becomes the most important part as `n` increases.
+
+Constants are ignored because they do not change the overall growth rate.
+
+However, constants and actual input size are still important in real programs. An algorithm with a slightly worse Big-O complexity may sometimes be faster because it has lower overhead or better implementation.
+
+Therefore, **asymptotic analysis is useful for comparing algorithms theoretically, but actual performance also depends on the input size, hardware, constants and implementation details.**
