@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+int main()
+{
+    int n;
+
+    printf("Enter size of array: ");
+    scanf("%d", &n);
+
+    int arr[n];
+    int result[n];
+
+    printf("Enter sorted array: ");
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+
+    int left = 0;
+    int right = n - 1;
+    int pos = n - 1;
+
+    // Put the largest square at the end
+    while (left <= right)
+    {
+        int leftSquare = arr[left] * arr[left];
+        int rightSquare = arr[right] * arr[right];
+
+        if (leftSquare > rightSquare)
+        {
+            result[pos] = leftSquare;
+            left++;
+        }
+        else
+        {
+            result[pos] = rightSquare;
+            right--;
+        }
+
+        pos--;
+    }
+
+    printf("Sorted squares: ");
+
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", result[i]);
+    }
+
+    return 0;
+}
+

@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int n, m;
+
+    printf("Enter size of arr1: ");
+    scanf("%d", &n);
+
+    int arr1[n];
+
+    printf("Enter elements of arr1: ");
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &arr1[i]);
+    }
+
+    printf("Enter size of arr2: ");
+    scanf("%d", &m);
+
+    int arr2[m];
+
+    printf("Enter elements of arr2: ");
+    for (int i = 0; i < m; i++)
+    {
+        scanf("%d", &arr2[i]);
+    }
+
+    int minDiff = abs(arr1[0] - arr2[0]);
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            int diff = abs(arr1[i] - arr2[j]);
+
+            if (diff < minDiff)
+            {
+                minDiff = diff;
+            }
+        }
+    }
+
+    printf("Smallest difference = %d\n", minDiff);
+
+    return 0;
+}
